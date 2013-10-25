@@ -18,7 +18,7 @@ class GreekSlugGenerator
     * @param string $str
     * @return string the generated slug
     */
-    public function get_slug($str)
+    public function get_slug($str, $separator = '-')
     {
         $slug = '';
         $last_char = '';
@@ -28,13 +28,9 @@ class GreekSlugGenerator
         for ($i = 0; $i < mb_strlen($str, 'utf-8'); $i++)
         {
             $char = $this->utf8_substr($str, $i, 1);
-            $current_char = $this->convert_character($char);
+            $current_char = $this->convert_character($char, $separator);
             
-            if($current_char === $last_char && $current_char === '-')
-            {
-                //ignore character
-            }
-            else
+            if($current_char !== $last_char || $current_char !== $separator)
             {
                 $slug .= $current_char;
             }
@@ -82,13 +78,20 @@ class GreekSlugGenerator
     * @param string $char
     * @return string the converted character
     */
-    private function convert_character($char)
+    private function convert_character($char, $separator)
     {
-        $allowed_characters = array('A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f', 'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r', 'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x', 'Y', 'y', 'Z', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-');
+        $allowed_characters = array(
+            'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
+            'G', 'g', 'H', 'h', 'I', 'i', 'J', 'j', 'K', 'k', 'L', 'l',
+            'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'Q', 'q', 'R', 'r',
+            'S', 's', 'T', 't', 'U', 'u', 'V', 'v', 'W', 'w', 'X', 'x',
+            'Y', 'y', 'Z', 'z', '0', '1', '2', '3', '4', '5', '6', '7',
+            '8', '9', $separator
+        );
 
         if ($char === ' ' || $char === ':' || $char === '–' || $char === '_' || $char === '/' || $char === '\\')
         {
-            return '-';
+            return $separator;
         }
         else if (in_array($char, $allowed_characters))
         {
