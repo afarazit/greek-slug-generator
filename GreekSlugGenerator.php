@@ -52,7 +52,7 @@ class GreekSlugGenerator
     * @param int $end
     * @return string a utf-8 character
     */
-    private function utf8_substr($str, $start, $end)
+    private static function utf8_substr($str, $start, $end)
     {
         preg_match_all('/./su', $str, $ar);
 
@@ -78,7 +78,7 @@ class GreekSlugGenerator
     * @param string $char
     * @return string the converted character
     */
-    private function convert_character($char, $separator)
+    private static function convert_character($char, $separator)
     {
         $allowed_characters = array(
             'A', 'a', 'B', 'b', 'C', 'c', 'D', 'd', 'E', 'e', 'F', 'f',
