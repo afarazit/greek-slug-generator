@@ -18,7 +18,7 @@ class GreekSlugGenerator
     * @param string $str
     * @return string the generated slug
     */
-    public function get_slug($str, $separator = '-')
+    public static function slugify($str, $separator = '-')
     {
         $slug = '';
         $last_char = '';
@@ -27,8 +27,8 @@ class GreekSlugGenerator
 
         for ($i = 0; $i < mb_strlen($str, 'utf-8'); $i++)
         {
-            $char = $this->utf8_substr($str, $i, 1);
-            $current_char = $this->convert_character($char, $separator);
+            $char = self::utf8_substr($str, $i, 1);
+            $current_char = self::convert_character($char, $separator);
             
             if($current_char !== $last_char || $current_char !== $separator)
             {
